@@ -1,6 +1,17 @@
 # DIY-1 此脚本功能：添加外部插件
 # =======================================================================================================================
 
+rm -rf feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 23.x feeds/packages/lang/golang
+
+# remove v2ray-geodata package from feeds (openwrt-22.03 & master)
+rm -rf feeds/packages/net/v2ray-geodata
+
+git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
+git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+make menuconfig # choose LUCI -> Applications -> luci-app-mosdns
+make package/mosdns/luci-app-mosdns/compile V=s
+
 # 1-添加 ShadowSocksR Plus+ 插件
 echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 
